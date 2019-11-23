@@ -1,0 +1,19 @@
+FROM golang:1.12.13
+
+#Install zip package to using zip
+RUN DEBIAN_FRONTEND=noninteractive \
+  apt-get update && \
+  apt-get install --no-install-recommends -y \
+  zip
+
+#Copy all project to src directory of default GOPATH address with name of project
+COPY . /go/src/simple-go-lambda
+
+#CD to simple-go-lambda folder by set WORKDIR
+WORKDIR /go/src/simple-go-lambda
+
+#RUN Makefile with test first, and build right after
+RUN make test && make build
+
+#We can copy the build.zip file to the root path / and chmod to 755
+RUN mv build.zip / && chmod 755 /build.zip
