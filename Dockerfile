@@ -19,5 +19,5 @@ RUN make test && make build
 RUN chmod 755 build.zip
 
 FROM busybox
-#Copy build.zip 
-COPY --from=build /go/src/simple-go-lambda/build.zip .
+#Copy build.zip to build folder
+COPY --from=build /go/src/simple-go-lambda/build.zip ./build

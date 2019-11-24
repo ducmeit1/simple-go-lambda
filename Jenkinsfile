@@ -31,9 +31,9 @@ node {
                 //Get current working directory
                 wd = pwd()
                 //Map wd with build folder in docker (we can't mapping with root path of docker container)
-                sh "docker run -v ${wd}:/ --rm --entrypoint cp ${dockerImage} ./build.zip ${wd}"
+                sh "docker run -v ${wd}/build:/build --rm --entrypoint cp ${dockerImage} ./build.zip ."
                 //Update aws lambda function code
-                sh "cd ${wd} && ls -la && aws lambda update-function-code --function-name simple-go-lambda --region ap-southest-1 --zip-file fileb://build.zip"
+                sh "cd ${wd}/build && ls -la && aws lambda update-function-code --function-name simple-go-lambda --region ap-southest-1 --zip-file fileb://build.zip"
             }
         }
 
