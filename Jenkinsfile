@@ -6,6 +6,7 @@ node {
     try {
         buildNumber = getCurrentBuildNumber()
         dockerImage = "ducmeit1/simple-go-lambda:v${buildNumber}"
+        dockerFile = "Dockerfile"
         //Prepare stage will only checkout the last commit of master branch from remote git repository
         stage('Prepare') {
             checkout scm
@@ -14,7 +15,7 @@ node {
         stage('Build') {
             docker.withRegistry("", "docker-hub-credentials") {
                 //Build docker image
-                def image = docker.build("")
+                def image = docker.build("${dockerImage}", "-f ${dockerFile} .")
                 //Push to registry
                 image.push()
             }
