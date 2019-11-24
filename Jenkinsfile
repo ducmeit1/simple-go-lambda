@@ -24,7 +24,8 @@ node {
         stage('Deploy') {
             //Get current working directory
             wd = pwd()
-            sh "docker run -v ${wd}:/ --rm --entrypoint cp ${dockerImage} ./build.zip /aws-lambda-build/build.zip"
+            //Map wd with build folder in docker (we can't mapping with root path of docker container)
+            sh "docker run --rm --entrypoint cp ${dockerImage} ./build.zip ${wd}"
             //Update aws lambda function code
             sh "cd ${wd} && aws lambda update-function-code --function-name simple-go-lambda --region ap-southest-1 --zip-file fileb://build.zip"
         }

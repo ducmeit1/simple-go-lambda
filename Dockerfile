@@ -1,4 +1,4 @@
-FROM golang:1.12.13
+FROM golang:1.12.13 as build
 
 #Install zip package to using zip
 RUN DEBIAN_FRONTEND=noninteractive \
@@ -15,5 +15,9 @@ WORKDIR /go/src/simple-go-lambda
 #RUN Makefile with test first, and build right after
 RUN make test && make build
 
-#We can copy the build.zip file to the root path / and chmod to 755
-RUN mv build.zip / && chmod 755 /build.zip
+#chmod to 755
+RUN chmod 755 build.zip
+
+FROM busybox
+#Copy build.zip 
+COPY --from=build /go/src/simple-go-lambda/build.zip .
