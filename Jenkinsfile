@@ -12,7 +12,7 @@ node {
         }
         //Build stage will build docker image and push to docker registry
         stage('Build') {
-            docker.withRegistry("https://hub.docker.io", "docker-hub-credentials") {
+            docker.withRegistry("ducmeit1/simple-go-lambda", "docker-hub-credentials") {
                 //Build docker image
                 def image = docker.build("")
                 //Push to registry
