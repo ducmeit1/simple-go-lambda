@@ -20,6 +20,4 @@ RUN chmod 755 build.zip
 
 FROM busybox
 #Copy build.zip to build folder
-WORKDIR /build
-RUN chmod 755 /build
-COPY --from=build /go/src/simple-go-lambda/build.zip .
+COPY --from=build /go/src/simple-go-lambda/build.zip /build/build.zip
